@@ -1,7 +1,7 @@
-package org.softwarefm.utilities.parser.internal.chunks;
+package org.softwarefm.utilities.parser.internal;
 
 import org.softwarefm.utilities.parser.IParser;
-import org.softwarefm.utilities.parser.internal.ParserState;
+import org.softwarefm.utilities.parser.ParserState;
 
 public class FieldChunkParser implements IParser {
 

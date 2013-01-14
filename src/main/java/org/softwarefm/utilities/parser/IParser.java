@@ -1,7 +1,5 @@
 package org.softwarefm.utilities.parser;
 
-import org.softwarefm.utilities.parser.internal.ParserState;
-import org.softwarefm.utilities.parser.internal.ParserStateObjectDefinition;
 import org.softwarefm.utilities.pooling.IObjectDefinition;
 import org.softwarefm.utilities.pooling.IPoolStore;
 import org.softwarefm.utilities.strings.ISimpleString;

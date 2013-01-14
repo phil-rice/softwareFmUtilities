@@ -1,10 +1,10 @@
-package org.softwarefm.utilities.parser.internal.chunks;
+package org.softwarefm.utilities.parser.internal;
 
 import java.io.UnsupportedEncodingException;
 
 import org.softwarefm.utilities.exceptions.WrappedException;
 import org.softwarefm.utilities.parser.IParser;
-import org.softwarefm.utilities.parser.internal.ParserState;
+import org.softwarefm.utilities.parser.ParserState;
 
 public abstract class AbstractParser implements IParser {
 

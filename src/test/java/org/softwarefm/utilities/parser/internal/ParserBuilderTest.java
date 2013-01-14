@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import org.softwarefm.utilities.collections.ISimpleList;
 import org.softwarefm.utilities.parser.IParser;
 import org.softwarefm.utilities.parser.IParserBuilder;
+import org.softwarefm.utilities.parser.ParserState;
 import org.softwarefm.utilities.parser.UtfStringIndentifierFieldSetter;
 import org.softwarefm.utilities.pooling.IObjectDefinition;
 import org.softwarefm.utilities.pooling.IPoolStore;

@@ -1,4 +1,4 @@
-package org.softwarefm.utilities.parser.internal;
+package org.softwarefm.utilities.parser;
 
 import org.softwarefm.utilities.pooling.IObjectDefinition;
 import org.softwarefm.utilities.pooling.IPoolStore;

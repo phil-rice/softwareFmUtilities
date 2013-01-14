@@ -1,6 +1,5 @@
 package org.softwarefm.utilities.parser;
 
-import org.softwarefm.utilities.parser.internal.ParserState;
 import org.softwarefm.utilities.strings.ISimpleString;
 
 public abstract class UtfStringIndentifierFieldSetter<T> implements IFieldSetter {

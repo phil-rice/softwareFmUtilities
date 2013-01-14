@@ -1,4 +1,4 @@
-package org.softwarefm.utilities.parser.internal;
+package org.softwarefm.utilities.parser;
 
 import java.util.ArrayList;
 import java.util.List;

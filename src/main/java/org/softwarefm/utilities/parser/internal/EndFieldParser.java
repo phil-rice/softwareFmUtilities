@@ -1,4 +1,4 @@
-package org.softwarefm.utilities.parser.internal.chunks;
+package org.softwarefm.utilities.parser.internal;
 
 
 public class EndFieldParser extends AbstractParser {

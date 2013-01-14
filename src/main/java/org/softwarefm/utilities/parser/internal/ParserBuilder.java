@@ -7,12 +7,6 @@ import java.util.Stack;
 import org.softwarefm.utilities.parser.IFieldSetter;
 import org.softwarefm.utilities.parser.IParser;
 import org.softwarefm.utilities.parser.IParserBuilder;
-import org.softwarefm.utilities.parser.internal.chunks.EndFieldParser;
-import org.softwarefm.utilities.parser.internal.chunks.EndObjectParser;
-import org.softwarefm.utilities.parser.internal.chunks.FieldChunkParser;
-import org.softwarefm.utilities.parser.internal.chunks.ObjectParser;
-import org.softwarefm.utilities.parser.internal.chunks.StartFieldChunk;
-import org.softwarefm.utilities.parser.internal.chunks.StartObjectChunk;
 import org.softwarefm.utilities.pooling.IObjectDefinition;
 
 public class ParserBuilder implements IParserBuilder {

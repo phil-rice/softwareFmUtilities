@@ -1,9 +1,9 @@
-package org.softwarefm.utilities.parser.internal.chunks;
+package org.softwarefm.utilities.parser.internal;
 
 import java.util.List;
 
 import org.softwarefm.utilities.parser.IParser;
-import org.softwarefm.utilities.parser.internal.ParserState;
+import org.softwarefm.utilities.parser.ParserState;
 
 /** A composite chunk that just reads in an object */
 public class ObjectParser<T> implements IParser {

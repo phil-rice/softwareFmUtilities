@@ -1,6 +1,5 @@
 package org.softwarefm.utilities.parser;
 
-import org.softwarefm.utilities.parser.internal.ParserState;
 
 public interface IFieldSetter {
 

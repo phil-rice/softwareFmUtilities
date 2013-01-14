@@ -1,6 +1,6 @@
-package org.softwarefm.utilities.parser.internal.chunks;
+package org.softwarefm.utilities.parser.internal;
 
-import org.softwarefm.utilities.parser.internal.ParserState;
+import org.softwarefm.utilities.parser.ParserState;
 import org.softwarefm.utilities.pooling.IObjectDefinition;
 
 public class StartObjectChunk<T> extends AbstractParser {
