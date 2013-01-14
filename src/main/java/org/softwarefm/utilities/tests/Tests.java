@@ -5,9 +5,11 @@
 package org.softwarefm.utilities.tests;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -20,9 +22,10 @@ import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
 import org.softwarefm.utilities.collections.Files;
+import org.softwarefm.utilities.collections.ISimpleList;
 import org.softwarefm.utilities.collections.Iterables;
 import org.softwarefm.utilities.collections.Sets;
-import org.softwarefm.utilities.constants.CommonConstants;
+import org.softwarefm.utilities.exceptions.MultipleExceptions;
 import org.softwarefm.utilities.exceptions.WrappedException;
 import org.softwarefm.utilities.functions.Functions;
 import org.softwarefm.utilities.functions.IFunction1;
@@ -42,7 +45,7 @@ public class Tests {
 	public static void waitUntil(Callable<Boolean> callable) {
 		long startTime = System.currentTimeMillis();
 		try {
-			while (!callable.call() && System.currentTimeMillis() < startTime + CommonConstants.testTimeOutMs)
+			while (!callable.call() && System.currentTimeMillis() < startTime + TestConstants.testTimeOutMs)
 				Thread.sleep(1);
 			if (!callable.call())
 				Assert.fail();
@@ -213,5 +216,36 @@ public class Tests {
 
 	public static <K, V> void assertEquals(ISimpleMap<K, V> left, ISimpleMap<K, V> right) {
 		Assert.assertEquals(Maps.fromSimpleMap(left), Maps.fromSimpleMap(right));
+	}
+
+	public static void executeInMultipleThreads(int count, final Runnable runnable) {
+		List<Thread> threads = new ArrayList<Thread>();
+		final List<Throwable> throwables = new ArrayList<Throwable>();
+		for (int i = 0; i < count; i++)
+			threads.add(new Thread(new Runnable() {
+				public void run() {
+					try {
+						runnable.run();
+					} catch (Exception e) {
+						MultipleExceptions.add(throwables, e);
+					}
+				}
+			}));
+		for (Thread thread : threads)
+			thread.start();
+		try {
+			for (Thread thread : threads)
+				thread.join();
+		} catch (InterruptedException e) {
+			throw WrappedException.wrap(e);
+		}
+		MultipleExceptions.throwIfNeeded(throwables);
+	}
+
+	public static <T>void assertEquals(ISimpleList<T> list, T...ts) {
+		Assert.assertEquals(list.size(), ts.length);
+		for (int i = 0; i<ts.length; i++)
+			Assert.assertEquals(list.get(i), ts[i]);
+		
 	}
 }

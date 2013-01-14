@@ -11,7 +11,6 @@ import org.softwarefm.utilities.callbacks.ICallback;
 import org.softwarefm.utilities.events.IMultipleListenerList;
 import org.softwarefm.utilities.events.IValid;
 import org.softwarefm.utilities.exceptions.MultipleExceptions;
-import org.softwarefm.utilities.exceptions.WrappedException;
 import org.softwarefm.utilities.maps.Maps;
 
 public class MultipleListenerList implements IMultipleListenerList {
@@ -55,14 +54,7 @@ public class MultipleListenerList implements IMultipleListenerList {
 			} catch (Throwable e) {
 				throwables.add(e);
 			}
-		switch (throwables.size()) {
-		case 1:
-			throw WrappedException.wrap(throwables.get(0));
-		case 0:
-			break;
-		default:
-			throw new MultipleExceptions(throwables);
-		}
+		MultipleExceptions.throwIfNeeded(throwables);
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.List;
@@ -625,6 +626,14 @@ public class Strings {
 		if (string.startsWith(prefix))
 			return string;
 		return prefix + string;
+	}
+
+	public static byte[] getBytes(String objectMarker, String encoding) {
+		try {
+			return objectMarker.getBytes(encoding);
+		} catch (UnsupportedEncodingException e) {
+			throw WrappedException.wrap(e);
+		}
 	}
 
 }

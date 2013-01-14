@@ -4,9 +4,46 @@
 
 package org.softwarefm.utilities.collections;
 
+import java.util.Collections;
+import java.util.List;
+
+import org.softwarefm.utilities.pooling.IObjectDefinition;
+import org.softwarefm.utilities.pooling.IPooledList;
+import org.softwarefm.utilities.pooling.internal.PooledList;
+import org.softwarefm.utilities.pooling.internal.PooledListObjectDefinition;
+
 public interface ISimpleList<T> {
 	int size();
 
 	T get(int index);
+
+	public static class Utils {
+
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		public static final ISimpleList empty = fromList(Collections.EMPTY_LIST);
+
+		public static <T> ISimpleList<T> fromList(final List<T> list) {
+			return new ISimpleList<T>() {
+				@Override
+				public int size() {
+					return list == null ? 0 : list.size();
+				}
+
+				@Override
+				public T get(int index) {
+					return list.get(index);
+				}
+			};
+		}
+
+		public static <T>IPooledList<T> pooledList(int maxArrays) {
+			return new PooledList<T>(maxArrays);
+			
+		}
+		public static <T>IObjectDefinition<IPooledList<T>> pooledListdefn(int maxArrays) {
+			return new PooledListObjectDefinition<T>(maxArrays);
+			
+		}
+	}
 
 }

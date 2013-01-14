@@ -53,6 +53,7 @@ public class SimpleMaps {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
+			@SuppressWarnings("rawtypes")
 			SimpleMap other = (SimpleMap) obj;
 			if (map == null) {
 				if (other.map != null)
