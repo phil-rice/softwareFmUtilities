@@ -7,10 +7,10 @@ package org.softwarefm.utilities.collections;
 import java.util.Collections;
 import java.util.List;
 
+import org.softwarefm.utilities.pooling.IMutableSimpleList;
 import org.softwarefm.utilities.pooling.IObjectDefinition;
-import org.softwarefm.utilities.pooling.IPooledList;
+import org.softwarefm.utilities.pooling.internal.MutableListObjectDefinition;
 import org.softwarefm.utilities.pooling.internal.PooledList;
-import org.softwarefm.utilities.pooling.internal.PooledListObjectDefinition;
 
 public interface ISimpleList<T> {
 	int size();
@@ -18,6 +18,16 @@ public interface ISimpleList<T> {
 	T get(int index);
 
 	public static class Utils {
+
+		public static <T> int indexOf(ISimpleList<T> list, T t) {
+			for (int i = 0; i < list.size(); i++)
+				if (t == null) {
+					if (list.get(i) == null)
+						return i;
+				} else if (t.equals(list.get(i)))
+					return i;
+			return -1;
+		}
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public static final ISimpleList empty = fromList(Collections.EMPTY_LIST);
@@ -36,13 +46,14 @@ public interface ISimpleList<T> {
 			};
 		}
 
-		public static <T>IPooledList<T> pooledList(int maxArrays) {
-			return new PooledList<T>(maxArrays);
-			
+		public static <T> IMutableSimpleList<T> mutableSimpleList(int maxSize) {
+			return new PooledList<T>(maxSize);
+
 		}
-		public static <T>IObjectDefinition<IPooledList<T>> pooledListdefn(int maxArrays) {
-			return new PooledListObjectDefinition<T>(maxArrays);
-			
+
+		public static <T> IObjectDefinition<IMutableSimpleList<T>> pooledListdefn(int maxSize) {
+			return new MutableListObjectDefinition<T>(maxSize);
+
 		}
 	}
 

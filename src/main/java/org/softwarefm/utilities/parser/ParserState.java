@@ -1,45 +1,44 @@
 package org.softwarefm.utilities.parser;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.softwarefm.utilities.collections.ISimpleList;
+import org.softwarefm.utilities.arrays.LongArrayAndSize;
+import org.softwarefm.utilities.pooling.IMutableSimpleList;
 import org.softwarefm.utilities.pooling.IPoolStore;
-import org.softwarefm.utilities.pooling.IPooledList;
-import org.softwarefm.utilities.pooling.IPooledMapOfLists;
 import org.softwarefm.utilities.strings.ISimpleString;
 
 /** Need to redo this so that it doesn't use collections. But lets get the parser working first! */
-public class ParserState {
+public class ParserState implements IObjectsAndEdges{
 
 	public boolean checkMarkers = true;
 	public ISimpleString input;
 	public int nextIndex;
-	public IPooledList<Object> parents;
-	public IPooledMapOfLists<Object, Object> parentToChildren ;
+	public IMutableSimpleList<Object> parents;
 	public Object thisObject;
 	public IPoolStore poolStore;
 
-	public ParserState(IPoolStore poolStore, int maxDepth, int maxParents, int maxChildren) {
+	public IMutableSimpleList<Object> objects;
+	public LongArrayAndSize parentToChildren;
+
+	public ParserState(IPoolStore poolStore, int maxDepth, int maxObjects) {
 		this.poolStore = poolStore;
-		this.parents  = IPooledList.Utils.pooledList(maxDepth);
-		this.parentToChildren= IPooledMapOfLists.Utils.mapOfLists(maxParents, maxChildren);
+		this.parents = IMutableSimpleList.Utils.mutableSimpleList(maxDepth);
+		this.parentToChildren = new LongArrayAndSize(maxObjects);
+		this.objects = IMutableSimpleList.Utils.mutableSimpleList(maxObjects);
 	}
 
 	public void populate(ISimpleString input) {
 		this.input = input;
+		this.parents.clear();
+		this.objects.clear();
+		this.parentToChildren.clear();
 	}
 
-
-	@SuppressWarnings("unchecked")
-	public <T> T root() {
-		return (T) parentToChildren.get(poolStore, null).get(0);
+	public IMutableSimpleList<Object> objects() {
+		return objects;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <P, C> ISimpleList<C> children(P parent) {
-		ISimpleList<C> result = (ISimpleList<C>) parentToChildren.get(poolStore, parent);
-		return result;
+	@Override
+	public LongArrayAndSize parentToChildren() {
+		return parentToChildren;
 	}
 
 }

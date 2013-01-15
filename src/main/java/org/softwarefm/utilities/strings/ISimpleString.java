@@ -34,6 +34,17 @@ public interface ISimpleString {
 					return false;
 			return true;
 		}
+		public static boolean equivalent(ISimpleString simpleString, ISimpleString string) {
+			if (simpleString == null || string == null)
+				return simpleString == null && string == null;
+			int length = simpleString.length();
+			if (length != string.length())
+				return false;
+			for (int i = 0; i < length; i++)
+				if (simpleString.byteAt(i) != string.byteAt(i))
+					return false;
+			return true;
+		}
 
 		public static final ISimpleString empty = new ISimpleString() {
 

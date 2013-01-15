@@ -13,11 +13,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.softwarefm.utilities.functions.IFunction1;
-
 public class SimpleMapsTest extends TestCase {
 	private final ISimpleMap<Object, Object> smA1B2 = SimpleMaps.makeMap("a", 1, "b", 2);
-	private final ISimpleMap<Object, Object> smB2C3 = SimpleMaps.makeMap("b", 2, "c", 3);
 	private final ISimpleMap<Object, Object> smA1C3 = SimpleMaps.makeMap("a", 1, "c", 3);
 	private final ISimpleMap<Object, Object> smA1B2C3 = SimpleMaps.makeMap("a", 1, "b", 2, "c", 3);
 
@@ -48,32 +45,15 @@ public class SimpleMapsTest extends TestCase {
 		checkMatchesLinkedMap(SimpleMaps.empty(), Collections.emptyMap());
 	}
 
-	public void testAggregateKeysOfChildMaps() {
-		List<Object> result = SimpleMaps.aggregateKeysOfChildMaps(Maps.<String, ISimpleMap<Object, Object>> makeLinkedMap("p", smA1B2, "1", smB2C3));
-		assertEquals(Arrays.asList("a", "b", "c"), result);
-	}
-
-	public void testPartitionByValue() {
-		Map<Object, Map<Object, Object>> result = SimpleMaps.partitionByValue(smA1B2C3, new IFunction1<Object, Object>() {
-			
-			public Object apply(Object from) throws Exception {
-				if (from.equals(1))
-					return "p";
-				if (from.equals(3))
-					return "p";
-				if (from.equals(2))
-					return "q";
-				throw new IllegalArgumentException(from.toString());
-			}
-		});
-		assertEquals(Maps.makeMap("p", Maps.makeMap("a", 1, "c", 3), "q", Maps.makeMap("b", 2)), result);
-	}
 
 	private <K, V> void checkMatchesLinkedMap(ISimpleMap<K, V> simpleMap, Map<K, V> map) {
-		assertEquals(new HashSet<K>(simpleMap.keys()), new HashSet<K>(map.keySet()));
-		assertEquals(simpleMap.keys().size(), map.size());
-		assertEquals(simpleMap.keys(), new ArrayList<K>(map.keySet()));
-		for (K key : simpleMap.keys())
+		List<K> simpleMapKeys = new ArrayList<K>();
+		for (int i = 0; i<simpleMap.size(); i++)
+			simpleMapKeys.add(simpleMap.key(i));
+		assertEquals(new HashSet<K>(simpleMapKeys), new HashSet<K>(map.keySet()));
+		assertEquals(simpleMap.size(), map.size());
+		assertEquals(simpleMapKeys, new ArrayList<K>(map.keySet()));
+		for (K key : simpleMapKeys)
 			assertEquals(map.get(key), simpleMap.get(key));
 	}
 

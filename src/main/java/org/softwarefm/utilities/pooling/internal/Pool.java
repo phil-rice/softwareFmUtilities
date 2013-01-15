@@ -24,12 +24,23 @@ public class Pool<T> implements IPool<T> {
 			objects.add(item);
 		} else
 			objectDefinition.clear(poolStore, item);
-		index ++;
+		index++;
 		return item;
+	}
+
+	@Override
+	public T get(int i) {
+		if (i >= index)
+			throw new IndexOutOfBoundsException("I is " + i + " index is " + index);
+		return (T) objects.get(i);
 	}
 
 	@Override
 	public void reset() {
 		index = 0;
+	}
+	@Override
+	public int inUse() {
+		return index;
 	}
 }

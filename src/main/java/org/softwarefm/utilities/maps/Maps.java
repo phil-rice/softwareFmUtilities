@@ -390,8 +390,10 @@ public class Maps {
 
 	public static <K, V> Map<K, V> fromSimpleMap(ISimpleMap<K, V> map) {
 		Map<K, V> result = new HashMap<K, V>();
-		for (K key : map.keys())
+		for (int i = 0; i < map.size(); i++) {
+			K key = map.key(i);
 			result.put(key, map.get(key));
+		}
 		return result;
 	}
 
@@ -538,8 +540,9 @@ public class Maps {
 		else
 			return result;
 	}
+
 	@SuppressWarnings("unchecked")
-	public static <K1,K2, V> List<V> getOrEmptyList(Map<K1,Map<K2, List<V>>> map, K1 key1, K2 key2) {
+	public static <K1, K2, V> List<V> getOrEmptyList(Map<K1, Map<K2, List<V>>> map, K1 key1, K2 key2) {
 		Map<K2, List<V>> map1 = map.get(key1);
 		if (map1 != null)
 			return getOrEmptyList(map1, key2);

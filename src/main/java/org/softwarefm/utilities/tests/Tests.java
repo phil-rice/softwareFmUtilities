@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
+import org.softwarefm.utilities.callbacks.ICallback;
 import org.softwarefm.utilities.collections.Files;
 import org.softwarefm.utilities.collections.ISimpleList;
 import org.softwarefm.utilities.collections.Iterables;
@@ -226,7 +227,7 @@ public class Tests {
 				public void run() {
 					try {
 						runnable.run();
-					} catch (Exception e) {
+					} catch (Throwable e) {
 						MultipleExceptions.add(throwables, e);
 					}
 				}
@@ -242,10 +243,67 @@ public class Tests {
 		MultipleExceptions.throwIfNeeded(throwables);
 	}
 
-	public static <T>void assertEquals(ISimpleList<T> list, T...ts) {
+	public static void executeInMultipleThreads(int count, final ICallback<Integer> callback) {
+		List<Thread> threads = new ArrayList<Thread>();
+		final List<Throwable> throwables = new ArrayList<Throwable>();
+		for (int i = 0; i < count; i++) {
+			final int index = i;
+			threads.add(new Thread(new Runnable() {
+				public void run() {
+					try {
+						callback.process(index);
+					} catch (Throwable e) {
+						MultipleExceptions.add(throwables, e);
+					}
+				}
+			}));
+		}
+		for (Thread thread : threads)
+			thread.start();
+		try {
+			for (Thread thread : threads)
+				thread.join();
+		} catch (InterruptedException e) {
+			throw WrappedException.wrap(e);
+		}
+		MultipleExceptions.throwIfNeeded(throwables);
+	}
+
+	public static <T> void assertEquals(ISimpleList<T> list, T... ts) {
 		Assert.assertEquals(list.size(), ts.length);
-		for (int i = 0; i<ts.length; i++)
+		for (int i = 0; i < ts.length; i++)
 			Assert.assertEquals(list.get(i), ts[i]);
-		
+
+	}
+
+	public static <T, T1 extends T> void assertListEquals(List<T> list, T... ts) {
+		Assert.assertEquals(list.size(), ts.length);
+		for (int i = 0; i < ts.length; i++)
+			Assert.assertEquals(list.get(i), ts[i]);
+
+	}
+
+	public static <T> void assertArrayEquals(T[] array, T... ts) {
+		Assert.assertEquals(ts.length, array.length);
+		for (int i = 0; i < ts.length; i++)
+			Assert.assertEquals(ts[i], array[i]);
+
+	}
+
+	public static void assertIntsEquals(int[] ints, int... is) {
+		Assert.assertEquals(is.length, ints.length);
+		for (int i = 0; i < is.length; i++)
+			Assert.assertEquals(is[i], ints[i]);
+	}
+
+	public static void assertIntsEquals(int[][] ints, int[]... is) {
+		Assert.assertEquals(is.length, ints.length);
+		for (int i = 0; i < is.length; i++)
+			assertIntsEquals(is[i], ints[i]);
+	}
+
+	public static void assertFirstIntsEquals(int[] ints, int... is) {
+		for (int i = 0; i < is.length; i++)
+			Assert.assertEquals(is[i], ints[i]);
 	}
 }

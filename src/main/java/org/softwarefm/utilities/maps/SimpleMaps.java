@@ -4,15 +4,12 @@
 
 package org.softwarefm.utilities.maps;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.softwarefm.utilities.collections.Iterables;
 import org.softwarefm.utilities.collections.Lists;
-import org.softwarefm.utilities.exceptions.WrappedException;
-import org.softwarefm.utilities.functions.IFunction1;
 
 public class SimpleMaps {
 
@@ -29,14 +26,20 @@ public class SimpleMaps {
 			return map.get(key);
 		}
 
-		public List<K> keys() {
-			return keyList;
+		@Override
+		public K key(int i) {
+			return keyList.get(i);
+		}
+		@Override
+		public int size() {
+			return keyList.size();
 		}
 
 		@Override
 		public String toString() {
 			return map.toString();
 		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -62,7 +65,7 @@ public class SimpleMaps {
 				return false;
 			return true;
 		}
-		
+
 	}
 
 	public static <K, V> ISimpleMap<K, V> makeMap(Object... kvs) {
@@ -83,68 +86,41 @@ public class SimpleMaps {
 	public static <K, V> Map<K, V> merge(Iterable<? extends ISimpleMap<K, V>> maps) {
 		Map<K, V> result = new HashMap<K, V>();
 		for (ISimpleMap<K, V> map : maps)
-			for (K key : map.keys())
+			for (int i = 0; i < map.size(); i++) {
+				K key = map.key(i);
 				result.put(key, map.get(key));
+			}
 		return result;
 	}
 
 	public static <K, V> Map<K, V> merge(ISimpleMap<K, V>... maps) {
 		Map<K, V> result = new HashMap<K, V>();
 		for (ISimpleMap<K, V> map : maps)
-			for (K key : map.keys())
+			for (int i = 0; i < map.size(); i++) {
+				K key = map.key(i);
 				result.put(key, map.get(key));
+			}
 		return result;
 	}
 
 	public static <K, V> ISimpleMap<K, V> empty() {
 		return new ISimpleMap<K, V>() {
-			
+
 			public V get(K key) {
 				return null;
 			}
 
-			
-			public List<K> keys() {
-				return Collections.emptyList();
+			@Override
+			public int size() {
+				return 0;
+			}
+
+			@Override
+			public K key(int i) {
+				throw new IndexOutOfBoundsException();
 			}
 
 		};
 	}
-
-	public static <K1, K2, V> List<K2> aggregateKeysOfChildMaps(Map<K1, ? extends ISimpleMap<K2, V>> map) {
-		List<K2> result = Lists.newList();
-		for (ISimpleMap<K2, V> m : map.values())
-			Lists.addAllUnique(result, m.keys());
-		return result;
-	}
-
-	public static <K, V, P> Map<P, Map<K, V>> partitionByKey(ISimpleMap<K, V> input, IFunction1<K, P> partitionFunction) {
-		try {
-			Map<P, Map<K, V>> result = Maps.newMap();
-			for (K key : input.keys()) {
-				V value = input.get(key);
-				P partition = partitionFunction.apply(key);
-				Maps.addToMapOfLinkedMaps(result, partition, key, value);
-			}
-			return result;
-		} catch (Exception e) {
-			throw WrappedException.wrap(e);
-		}
-	}
-
-	public static <K, V, P> Map<P, Map<K, V>> partitionByValue(ISimpleMap<K, V> input, IFunction1<V, P> partitionFunction) {
-		try {
-			Map<P, Map<K, V>> result = Maps.newMap();
-			for (K key : input.keys()) {
-				V value = input.get(key);
-				P partition = partitionFunction.apply(value);
-				Maps.addToMapOfLinkedMaps(result, partition, key, value);
-			}
-			return result;
-		} catch (Exception e) {
-			throw WrappedException.wrap(e);
-		}
-	}
-
 
 }

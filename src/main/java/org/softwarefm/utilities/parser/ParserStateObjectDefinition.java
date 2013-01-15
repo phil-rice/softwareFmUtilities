@@ -6,13 +6,12 @@ import org.softwarefm.utilities.pooling.IPoolStore;
 public class ParserStateObjectDefinition implements IObjectDefinition<ParserState> {
 
 	private int maxDepth;
-	private int maxParents;
-	private int maxChildren;
+	private int maxObjects;
 
-	public ParserStateObjectDefinition(int maxDepth, int maxParents, int maxChildren) {
+
+	public ParserStateObjectDefinition(int maxDepth, int maxObjects) {
 		this.maxDepth = maxDepth;
-		this.maxParents = maxParents;
-		this.maxChildren = maxChildren;
+		this.maxObjects = maxObjects;
 	}
 
 	@Override
@@ -22,7 +21,7 @@ public class ParserStateObjectDefinition implements IObjectDefinition<ParserStat
 
 	@Override
 	public ParserState createBlank(IPoolStore poolStore) {
-		return new ParserState(poolStore, maxDepth, maxParents, maxChildren);
+		return new ParserState(poolStore, maxDepth, maxObjects);
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package org.softwarefm.utilities.pooling;
 
 import org.softwarefm.utilities.collections.ISimpleList;
 
-public interface IPooledList<T> extends ISimpleList<T> {
+public interface IMutableSimpleList<T> extends ISimpleList<T> {
 
 	void add(T item);
 

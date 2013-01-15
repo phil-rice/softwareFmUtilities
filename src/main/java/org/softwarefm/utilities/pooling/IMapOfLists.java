@@ -5,7 +5,7 @@ import org.softwarefm.utilities.pooling.internal.KeyValue;
 
 public interface IMapOfLists<K,V> {
 	/** can return null if not in */
-	IPooledList<V> get(IPoolStore poolStore, K key);
+	IMutableSimpleList<V> get(IPoolStore poolStore, K key);
 
 	ISimpleList<KeyValue<K, ISimpleList<V>>> entries();
 }

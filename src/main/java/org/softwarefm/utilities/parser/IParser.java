@@ -11,8 +11,8 @@ public interface IParser {
 
 	public static class Utils {
 
-		public static IObjectDefinition<ParserState> parserStateObjectDefinition(int maxDepth, int maxParents, int maxChildren) {
-			return new ParserStateObjectDefinition(maxDepth, maxParents, maxChildren);
+		public static IObjectDefinition<ParserState> parserStateObjectDefinition(int maxDepth, int maxObjects) {
+			return new ParserStateObjectDefinition(maxDepth, maxObjects);
 		}
 
 		public static ParserState parseUtfString(IPoolStore poolStore, IObjectDefinition<ParserState> parserStateObjectDefinition, IParser parser, String input) {
@@ -21,7 +21,11 @@ public interface IParser {
 		}
 
 		public static ParserState parse(IPoolStore poolStore, IObjectDefinition<ParserState> parserStateObjectDefinition, IParser parser, ISimpleString input) {
+			return parse(poolStore, parserStateObjectDefinition, parser, input, true);
+		}
+		public static ParserState parse(IPoolStore poolStore, IObjectDefinition<ParserState> parserStateObjectDefinition, IParser parser, ISimpleString input, boolean check) {
 			ParserState parserState = poolStore.pool(parserStateObjectDefinition).get(poolStore);
+			parserState.checkMarkers = check;
 			parserState.populate(input);
 			parser.parse(parserState);
 			return parserState;

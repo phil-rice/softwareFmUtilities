@@ -26,11 +26,13 @@ public class MultipleListenerList implements IMultipleListenerList {
 		Maps.removeFromList(map, source, clazz, listener);
 	}
 
+	@SuppressWarnings("unchecked")
 	public <L> boolean contains(Object source, java.lang.Class<L> clazz, L listener) {
 		List<L> list = (List<L>) Maps.getOrEmptyList(map, source, clazz);
 		return list.contains(listener);
 	};
 
+	@SuppressWarnings("unchecked")
 	public <L> int size(Object source, java.lang.Class<L> clazz) {
 		List<L> list = (List<L>) Maps.getOrEmptyList(map, source, clazz);
 		return list.size();

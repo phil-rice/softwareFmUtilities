@@ -1,29 +1,29 @@
 package org.softwarefm.utilities.pooling.internal;
 
 import org.softwarefm.utilities.collections.ISimpleList;
+import org.softwarefm.utilities.pooling.IMutableMapOfLists;
+import org.softwarefm.utilities.pooling.IMutableSimpleList;
 import org.softwarefm.utilities.pooling.IObjectDefinition;
 import org.softwarefm.utilities.pooling.IPoolStore;
-import org.softwarefm.utilities.pooling.IPooledList;
-import org.softwarefm.utilities.pooling.IPooledMapOfLists;
 
 /** Very poor speed approach, unless the map is small */
-public class PooledMapOfLists<K, V> implements IPooledMapOfLists<K, V> {
+public class PooledMapOfLists<K, V> implements IMutableMapOfLists<K, V> {
 
-	private final IObjectDefinition<KeyValue<K, IPooledList<V>>> keyValueDefn = new KeyValueObjectDefinition<K, IPooledList<V>>();
+	private final IObjectDefinition<KeyValue<K, IMutableSimpleList<V>>> keyValueDefn = new KeyValueObjectDefinition<K, IMutableSimpleList<V>>();
 
-	private IPooledList<KeyValue<K, IPooledList<V>>> list;
+	private IMutableSimpleList<KeyValue<K, IMutableSimpleList<V>>> list;
 
-	private IObjectDefinition<IPooledList<V>> pooledListdefn;
+	private IObjectDefinition<IMutableSimpleList<V>> pooledListdefn;
 
 	public PooledMapOfLists(int maxKeys, int maxValues) {
-		list = IPooledList.Utils.pooledList(maxKeys);
-		pooledListdefn = IPooledList.Utils.pooledListdefn(maxValues);
+		list = IMutableSimpleList.Utils.mutableSimpleList(maxKeys);
+		pooledListdefn = IMutableSimpleList.Utils.pooledListdefn(maxValues);
 	}
 
 	public void add(IPoolStore poolStore, K key, V item) {
-		IPooledList<V> valueList = get(poolStore, key);
+		IMutableSimpleList<V> valueList = get(poolStore, key);
 		if (valueList == null) {
-			KeyValue<K, IPooledList<V>> keyValue = poolStore.pool(keyValueDefn).get(poolStore);
+			KeyValue<K, IMutableSimpleList<V>> keyValue = poolStore.pool(keyValueDefn).get(poolStore);
 			keyValue.key = key;
 			valueList = keyValue.value = poolStore.pool(pooledListdefn).get(poolStore);
 			list.add(keyValue);
@@ -39,9 +39,9 @@ public class PooledMapOfLists<K, V> implements IPooledMapOfLists<K, V> {
 	}
 
 	@Override
-	public IPooledList<V> get(IPoolStore poolStore, K key) {
+	public IMutableSimpleList<V> get(IPoolStore poolStore, K key) {
 		for (int i = 0; i < list.size(); i++) {
-			KeyValue<K, IPooledList<V>> candidate = list.get(i);
+			KeyValue<K, IMutableSimpleList<V>> candidate = list.get(i);
 			if (candidate.key == null) {
 				if (key == null)
 					return candidate.value;

@@ -4,7 +4,6 @@ import java.nio.ByteBuffer;
 
 import org.softwarefm.utilities.pooling.IObjectDefinition;
 import org.softwarefm.utilities.pooling.IPoolStore;
-import org.softwarefm.utilities.strings.internal.ByteArraySimpleString;
 import org.softwarefm.utilities.strings.internal.ByteBufferSimpleString;
 
 public class ByteBufferStringObjectDefinition  implements IObjectDefinition<ISettableSimpleString>{

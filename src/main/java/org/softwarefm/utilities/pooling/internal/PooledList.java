@@ -1,8 +1,8 @@
 package org.softwarefm.utilities.pooling.internal;
 
-import org.softwarefm.utilities.pooling.IPooledList;
+import org.softwarefm.utilities.pooling.IMutableSimpleList;
 
-public class PooledList<T> implements IPooledList<T> {
+public class PooledList<T> implements IMutableSimpleList<T> {
 
 	private Object[] data;
 	private int size;
@@ -34,6 +34,7 @@ public class PooledList<T> implements IPooledList<T> {
 			throw new IndexOutOfBoundsException("MaxSize is " + data.length + " size is " + size);
 		data[size++] = item;
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public T pop() {
 		return (T) data[--size];

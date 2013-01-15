@@ -22,8 +22,10 @@ public class ObjectParser<T> implements IParser {
 	public boolean parse(ParserState state) {
 		boolean found = false;
 		while (startObjectChunk.parse(state)) {
-			for (IParser chunk : content)
+			for (int i = 0; i < content.size(); i++) {
+				IParser chunk = content.get(i);
 				chunk.parse(state);
+			}
 			endObjectParser.parse(state);
 			found = true;
 		}

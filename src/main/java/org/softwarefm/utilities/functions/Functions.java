@@ -38,6 +38,16 @@ public class Functions {
 
 	}
 
+	public static final IFunction1<List<Integer>, int[]> listIntsToIntArray = new IFunction1<List<Integer>, int[]>() {
+		@Override
+		public int[] apply(List<Integer> from) throws Exception {
+			int[] result = new int[from.size()];
+			for (int i = 0; i<from.size(); i++)
+				result[i] = from.get(i);
+			return result ;
+		}
+	};
+
 	public static <From, To> To call(final IFunction1<From, To> fn, From value) {
 		try {
 			return fn.apply(value);
@@ -86,7 +96,6 @@ public class Functions {
 	@SuppressWarnings("rawtypes")
 	public static IFunction1 arraysBecomeLists() {
 		return new IFunction1() {
-			
 			public Object apply(Object from) throws Exception {
 				if (from.getClass().isArray()) {
 					List<Object> result = Lists.newList();
@@ -428,6 +437,15 @@ public class Functions {
 			public T apply(T from) throws Exception {
 				callback.process(from);
 				return from;
+			}
+		};
+	}
+
+	public static <T>IFunction1<T, Integer> indexOf(final List<T> list) {
+		return new IFunction1<T, Integer>() {
+			@Override
+			public Integer apply(T from) throws Exception {
+				return list.indexOf(from);
 			}
 		};
 	}
