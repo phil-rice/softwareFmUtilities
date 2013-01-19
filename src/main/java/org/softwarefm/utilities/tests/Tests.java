@@ -254,6 +254,7 @@ public class Tests {
 						callback.process(index);
 					} catch (Throwable e) {
 						MultipleExceptions.add(throwables, e);
+						e.printStackTrace();
 					}
 				}
 			}));
