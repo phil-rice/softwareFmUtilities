@@ -37,6 +37,12 @@ public class Lists {
 		return shuffle(random, list);
 	}
 
+	public static <T> List<T> synchronizedCopyOf(List<T> raw, Object lock){
+		synchronized (lock) {
+			return new ArrayList<T>(raw);
+		}
+	}
+	
 	public static <T> List<T> times(int n, T value) {
 		return Iterables.list(Iterables.times(n, value));
 	}

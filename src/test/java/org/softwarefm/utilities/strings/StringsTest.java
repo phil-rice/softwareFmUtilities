@@ -14,6 +14,25 @@ import org.softwarefm.utilities.tests.Tests;
 
 public class StringsTest extends TestCase {
 
+	public void testStringsVersionComparator(){
+		checkVersionComparator("1.0.0", "1.0.0", 0);
+		checkVersionComparator("12.0.0", "1.0.0", 11);
+		checkVersionComparator("123.0.0", "12.0.0", 111);
+		checkVersionComparator("123.0.0", "31.0.0", 92);
+		checkVersionComparator("1.0.0", "1.0.0.0", -1);
+		checkVersionComparator("2.0.0", "1.0.0", 1);
+		checkVersionComparator("1.0.0", "1.0.1", -1);
+		checkVersionComparator("2.0.0", "1.0.7", 1);
+	}
+	
+	private void checkVersionComparator(String left, String right, int expected) {
+		assertEquals(expected, Strings.versionComparator.compare(left, right));
+		assertEquals(-expected, Strings.versionComparator.compare(right, left));
+		assertEquals(-expected, Strings.invertedVersionComparator.compare(left, right));
+		assertEquals(expected, Strings.invertedVersionComparator.compare(right, left));
+		
+	}
+
 	public void testOneLine() {
 		assertEquals("abc", Strings.oneLine("abc"));
 		assertEquals("a b c", Strings.oneLine("a\nb\nc"));

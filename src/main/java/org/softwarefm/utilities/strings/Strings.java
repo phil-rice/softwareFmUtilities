@@ -35,6 +35,39 @@ public class Strings {
 	private final static Pattern urlFriendlyPattern = Pattern.compile("(([\\w]+:)?//)?(([\\d\\w]|%[a-fA-f\\d]{2,2})+(:([\\d\\w]|%[a-fA-f\\d]{2,2})+)?@)?([\\d\\w][-\\d\\w]{0,253}[\\d\\w]\\.)+[\\w]{2,4}(:[\\d]+)?(/([-+_~.\\d\\w]|%[a-fA-f\\d]{2,2})*)*(\\?(&?([-+_~.\\d\\w]|%[a-fA-f\\d]{2,2})=?)*)?(#([-+_~.\\d\\w]|%[a-fA-f\\d]{2,2})*)?");
 	private static String digits = "0123456789abcdef";
 
+	static class VersionComparator implements Comparator<String> {
+		private final boolean invert;
+
+		public VersionComparator(boolean invert) {
+			this.invert = invert;
+		}
+
+		@Override
+		public int compare(String o1, String o2) {
+			int index = 0;
+			while (true) {
+				String leftSegment = Strings.segment(o1, "\\.", index);
+				String rightSegment = Strings.segment(o2, "\\.", index);
+				if (leftSegment.length() == 0 && rightSegment.length() == 0)
+					return 0;
+				try {
+					int leftInt = Integer.parseInt(leftSegment);
+					int rightInt = Integer.parseInt(rightSegment);
+					if (leftInt != rightInt)
+						return invert ? rightInt - leftInt : leftInt - rightInt;
+				} catch (Exception e) {
+					int compare = leftSegment.compareTo(rightSegment);
+					if (compare != 0)
+						return invert ? -compare : compare;
+				}
+				index++;
+			}
+		}
+	}
+
+	public static Comparator<String> invertedVersionComparator = new VersionComparator(true);
+	public static Comparator<String> versionComparator = new VersionComparator(false);
+
 	public static byte[] zip(String str) {
 		try {
 			if (str == null || str.length() == 0) {
@@ -604,16 +637,16 @@ public class Strings {
 		return index + item.length();
 	}
 
-	
 	public static String findItem(String container, String startMarker, String endMarker) {
 		return findItem(container, startMarker, endMarker, new AtomicInteger());
 	}
+
 	public static String findItem(String container, String startMarker, String endMarker, AtomicInteger startIndex) {
 		int startName = Strings.indexAfter(container, startMarker, startIndex.get());
-		if (startName <0)
+		if (startName < 0)
 			return null;
 		int endName = container.indexOf(endMarker, startName);
-		if (endName <0)
+		if (endName < 0)
 			return null;
 		String name = container.substring(startName, endName);
 		startIndex.set(endName + endMarker.length());

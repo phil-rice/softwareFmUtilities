@@ -504,7 +504,7 @@ public class Maps {
 		if (map1 == null)
 			map.put(key1, map1 = new HashMap<K2, V>());
 		if (map1.containsKey(key2))
-			throw new IllegalStateException("Already have a value for " + key1 + "," + key2 + " which is " + map.get(key2));
+			throw new IllegalStateException("Already have a value for " + key1 + "," + key2 + " which is " + map1.get(key2));
 		map1.put(key2, value);
 	}
 

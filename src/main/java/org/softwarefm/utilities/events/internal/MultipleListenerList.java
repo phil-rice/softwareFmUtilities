@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.softwarefm.utilities.callbacks.ICallback;
+import org.softwarefm.utilities.collections.Lists;
 import org.softwarefm.utilities.events.IMultipleListenerList;
 import org.softwarefm.utilities.events.IValid;
 import org.softwarefm.utilities.exceptions.MultipleExceptions;
@@ -17,13 +18,18 @@ public class MultipleListenerList implements IMultipleListenerList {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	final Map<Object, Map<Class<?>, List<Object>>> map = Collections.synchronizedMap(new HashMap());
+	private final Object lock = new Object();
 
 	public <L> void addListener(Object source, Class<L> clazz, L listener) {
-		Maps.addToList(map, source, clazz, listener);
+		synchronized (lock) {
+			Maps.addToList(map, source, clazz, listener);
+		}
 	}
 
 	public <L> void removeListener(Object source, Class<L> clazz, L listener) {
-		Maps.removeFromList(map, source, clazz, listener);
+		synchronized (lock) {
+			Maps.removeFromList(map, source, clazz, listener);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -42,28 +48,35 @@ public class MultipleListenerList implements IMultipleListenerList {
 	public <L> void fire(Object source, Class<L> clazz, ICallback<L> callback) {
 		List<Throwable> throwables = new ArrayList<Throwable>();
 		List<L> list = (List<L>) Maps.getOrEmptyList(map, source, clazz);
-		for (Iterator<L> iterator = list.iterator(); iterator.hasNext();)
+		List<L> toBeRemoved = new ArrayList<L>();
+		for (Iterator<L> iterator = Lists.synchronizedCopyOf(list, lock).iterator(); iterator.hasNext();)
 			try {
 				L listener = iterator.next();
 				if (listener instanceof IValid)
-					if (!((IValid) listener).isValid()) {
-						iterator.remove();
-						continue;
-					}
-				callback.process(listener);
+					if (((IValid) listener).isValid())
+						callback.process(listener);
+					else
+						toBeRemoved.add(listener);
+				else
+					callback.process(listener);
 			} catch (ThreadDeath e) {
 				throw e;
 			} catch (Throwable e) {
 				throwables.add(e);
 			}
+		synchronized (lock) {
+			list.removeAll(toBeRemoved);
+		}
 		MultipleExceptions.throwIfNeeded(throwables);
 	}
 
 	@Override
 	public <L> void clear(Object source, Class<L> clazz) {
-		Map<Class<?>, List<Object>> map2 = map.get(source);
-		if (map2 != null)
-			map2.remove(clazz);
+		synchronized (lock) {
+			Map<Class<?>, List<Object>> map2 = map.get(source);
+			if (map2 != null)
+				map2.remove(clazz);
+		}
 	}
 
 }
