@@ -1,5 +1,7 @@
 package org.softwarefm.utilities.exceptions;
 
+import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MultipleExceptions extends RuntimeException {
@@ -29,5 +31,21 @@ public class MultipleExceptions extends RuntimeException {
 		if (e instanceof ThreadDeath)
 			throw (ThreadDeath) e;
 		throwables.add(e);
+	}
+
+	@Override
+	public void printStackTrace(PrintStream s) {
+		super.printStackTrace(s);
+		for (Throwable t : throwables) {
+			s.append("child exception\n");
+			t.printStackTrace(s);
+		}
+		s.append("End of multiple exceptions\n");
+	}
+
+	@Override
+	public StackTraceElement[] getStackTrace() {
+		List<StackTraceElement> list = new ArrayList<StackTraceElement>();
+		return list.toArray(new StackTraceElement[0]);
 	}
 }
