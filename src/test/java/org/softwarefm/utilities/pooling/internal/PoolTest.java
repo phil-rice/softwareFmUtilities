@@ -83,8 +83,9 @@ public class PoolTest extends TestCase {
 		poolStore = IPoolStore.Utils.threadSafePoolStore();
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 		EasyMock.verify(defn);
-	};
-
+	}
+ 
 }

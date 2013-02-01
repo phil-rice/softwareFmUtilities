@@ -74,9 +74,10 @@ public class PooledListTest extends TestCase {
 				mutableSimpleList.add("Item");
 			}
 		});
-
+ 
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		mutableSimpleList = IMutableSimpleList.Utils.mutableSimpleList(10);
 	};
