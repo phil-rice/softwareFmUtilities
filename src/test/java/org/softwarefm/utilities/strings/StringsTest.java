@@ -14,7 +14,7 @@ import org.softwarefm.utilities.tests.Tests;
 
 public class StringsTest extends TestCase {
 
-	public void testStringsVersionComparator(){
+	public void testStringsVersionComparator() {
 		checkVersionComparator("1.0.0", "1.0.0", 0);
 		checkVersionComparator("12.0.0", "1.0.0", 11);
 		checkVersionComparator("123.0.0", "12.0.0", 111);
@@ -24,13 +24,13 @@ public class StringsTest extends TestCase {
 		checkVersionComparator("1.0.0", "1.0.1", -1);
 		checkVersionComparator("2.0.0", "1.0.7", 1);
 	}
-	
+
 	private void checkVersionComparator(String left, String right, int expected) {
 		assertEquals(expected, Strings.versionComparator.compare(left, right));
 		assertEquals(-expected, Strings.versionComparator.compare(right, left));
 		assertEquals(-expected, Strings.invertedVersionComparator.compare(left, right));
 		assertEquals(expected, Strings.invertedVersionComparator.compare(right, left));
-		
+
 	}
 
 	public void testOneLine() {
@@ -232,7 +232,8 @@ public class StringsTest extends TestCase {
 	}
 
 	public void testVersions() {
-		checkVersions("\\a\\b\\c\\spring-code-1.0.0.jar", "spring-code", "1.0.0");
+		String fs = File.separator;
+		checkVersions(fs + "a" + fs + "b" + fs + "c" + fs + "spring-code-1.0.0.jar", "spring-code", "1.0.0");
 		checkVersions("a/b/c/spring-code-1.0.0.jar", "spring-code", "1.0.0");
 		checkVersions("spring-code-1.0.0.jar", "spring-code", "1.0.0");
 		checkVersions("spring-code-1.A.0.jar", "n/a", "n/a");
