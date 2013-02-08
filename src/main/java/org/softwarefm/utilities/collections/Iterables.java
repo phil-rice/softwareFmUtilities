@@ -126,6 +126,17 @@ public class Iterables {
 		return map(iterable(from), convertor);
 	}
 
+	public static <T> T getOptional(Iterable<T> iterable) {
+		Iterator<T> iterator = iterable.iterator();
+		if (iterator.hasNext()) {
+			T result = iterator.next();
+			if (iterator.hasNext())
+				throw new IllegalArgumentException("Iterable should have zero or one items. " + iterable);
+			return result;
+		}
+		return null;
+	}
+
 	public static <From, To> Iterable<To> map(final Iterable<From> from, final IFunction1<? super From, To> convertor) {
 		if (from == null)
 			throw new NullPointerException();
@@ -293,6 +304,15 @@ public class Iterables {
 		}
 		Assert.fail(iterable.toString());
 		return null;
+	}
+
+	public static <T>int size(Iterable<T> iterables) {
+		int size = 0;
+		for (Iterator<T> iterator = iterables.iterator(); iterator.hasNext();){
+			iterator.next();
+			size++;
+		}
+		return size;
 	}
 
 }

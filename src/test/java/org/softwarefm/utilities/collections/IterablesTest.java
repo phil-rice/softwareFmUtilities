@@ -2,8 +2,8 @@
 /* SoftwareFm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details. */
 /* You should have received a copy of the GNU General Public License along with SoftwareFm. If not, see <http://www.gnu.org/licenses/> */
 
-
 package org.softwarefm.utilities.collections;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +19,7 @@ import junit.framework.TestCase;
 import org.softwarefm.utilities.callbacks.MemoryCallback;
 import org.softwarefm.utilities.functions.Functions;
 import org.softwarefm.utilities.functions.IFunction1;
+import org.softwarefm.utilities.tests.Tests;
 
 public class IterablesTest extends TestCase {
 	private final List<Integer> x123 = Arrays.asList(1, 2, 3);
@@ -35,6 +36,23 @@ public class IterablesTest extends TestCase {
 		assertEquals(1, Iterables.fold(Functions.plusInt(), Collections.EMPTY_LIST, 1).intValue());
 		assertEquals(6, Iterables.fold(Functions.plusInt(), x123, 0).intValue());
 		assertEquals(7, Iterables.fold(Functions.plusInt(), x123, 1).intValue());
+	}
+	
+	public void testSize(){
+		assertEquals(0, Iterables.size(Arrays.asList()));
+		assertEquals(1, Iterables.size(Arrays.asList("1")));
+		assertEquals(3, Iterables.size(Arrays.asList("a", "b", "c")));
+		
+	}
+
+	public void testGetOptional() {
+		assertEquals(null, Iterables.getOptional(Arrays.asList()));
+		assertEquals("1", Iterables.getOptional(Arrays.asList("1")));
+		Tests.assertThrowsWithMessage("Iterable should have zero or one items. [1, 2]", IllegalArgumentException.class, new Runnable() {
+			public void run() {
+				Iterables.getOptional(Arrays.asList("1", "2"));
+			}
+		});
 	}
 
 	public void testTail() {

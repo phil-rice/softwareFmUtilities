@@ -25,7 +25,7 @@ public class LoggingListenerTest extends TestCase {
 		list.fire(ICallback.Utils.<ITestListener> noCallback());
 		list.fire(ICallback.Utils.<ITestListener> noCallback());
 
-		Tests.assertListEquals(memory.getResults(), //
+		Tests.<String, String> assertListEquals(memory.getResults(), //
 				"fireStarted(0, src, interface org.softwarefm.utilities.events.internal.ListenerListTest$ITestListener, NoCallback)",//
 				"  listenerStarted(0, src, interface org.softwarefm.utilities.events.internal.ListenerListTest$ITestListener, NoCallback, l1)",//
 				"  listenerEnded(0, src, interface org.softwarefm.utilities.events.internal.ListenerListTest$ITestListener, NoCallback, l1)",//
