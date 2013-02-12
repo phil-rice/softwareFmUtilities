@@ -19,6 +19,7 @@ import org.softwarefm.utilities.constants.UtilityMessages;
 import org.softwarefm.utilities.functions.Functions;
 import org.softwarefm.utilities.functions.IFunction1;
 import org.softwarefm.utilities.maps.Maps;
+import org.softwarefm.utilities.tests.Tests;
 
 public class ListsTest extends TestCase {
 
@@ -29,6 +30,13 @@ public class ListsTest extends TestCase {
 
 	public void testNewList() {
 		assertEquals(Collections.EMPTY_LIST, Lists.newList());
+	}
+	
+	public void testTake(){
+		Tests.assertListEquals(Lists.take(Arrays.asList("a", "b", "c"), 0));
+		Tests.assertListEquals(Lists.take(Arrays.asList("a", "b", "c"), 1), "a");
+		Tests.assertListEquals(Lists.take(Arrays.asList("a", "b", "c"), 3), "a", "b", "c");
+		Tests.assertListEquals(Lists.take(Arrays.asList("a", "b", "c"), 5), "a", "b", "c");
 	}
 
 	public void testRemoveAllAfter() {

@@ -36,6 +36,14 @@ public class Lists {
 	public static <T> List<T> shuffle(List<T> list) {
 		return shuffle(random, list);
 	}
+	
+	public static <T> List<T> take(List<T> list, int n){
+		List<T> result = new ArrayList<T>(n);
+		int count = Math.min(n, list.size());
+		for (int i = 0; i<count; i++)
+			result.add(list.get(i));
+		return result;
+	}
 
 	public static <T> List<T> synchronizedCopyOf(List<T> raw, Object lock) {
 		synchronized (lock) {

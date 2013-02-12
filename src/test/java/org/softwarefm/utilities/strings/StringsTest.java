@@ -233,7 +233,7 @@ public class StringsTest extends TestCase {
 
 	public void testVersions() {
 		String fs = File.separator;
-		checkVersions(fs + "a" + fs + "b" + fs + "c" + fs + "spring-code-1.0.0.jar", "spring-code", "1.0.0");
+		checkVersions(fs + "a" + fs + "b" + fs + "c" + fs +	"spring-code-1.0.0.jar", "spring-code", "1.0.0");
 		checkVersions("a/b/c/spring-code-1.0.0.jar", "spring-code", "1.0.0");
 		checkVersions("spring-code-1.0.0.jar", "spring-code", "1.0.0");
 		checkVersions("spring-code-1.A.0.jar", "n/a", "n/a");
