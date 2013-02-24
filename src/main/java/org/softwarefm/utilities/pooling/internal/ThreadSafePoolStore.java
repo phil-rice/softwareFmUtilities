@@ -8,10 +8,11 @@ import org.softwarefm.utilities.pooling.IPoolStore;
 
 public class ThreadSafePoolStore implements IPoolStore {
 
-	private ThreadLocal<IMutableSimpleMap<IObjectDefinition<?>, IPool<?>>> cache = new ThreadLocal<IMutableSimpleMap<IObjectDefinition<?>, IPool<?>>>() {
+	private final ThreadLocal<IMutableSimpleMap<IObjectDefinition<?>, IPool<?>>> cache = new ThreadLocal<IMutableSimpleMap<IObjectDefinition<?>, IPool<?>>>() {
+		@Override
 		protected IMutableSimpleMap<IObjectDefinition<?>, IPool<?>> initialValue() {
 			return new MutableSimpleMap<IObjectDefinition<?>, IPool<?>>(100);
-		};
+		}
 	};
 
 	@SuppressWarnings("unchecked")

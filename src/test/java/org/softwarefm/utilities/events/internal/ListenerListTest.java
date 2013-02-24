@@ -247,6 +247,7 @@ public class ListenerListTest extends TestCase {
 		EasyMock.verify(mockL1C1, mockL2C1, mockL1C2, mockL2C2, mockV1, mockV2, mockInvalid1, mockInvalid2, globalListener1, globalListener2);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();

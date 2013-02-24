@@ -11,9 +11,9 @@ public class PooledMapOfLists<K, V> implements IMutableMapOfLists<K, V> {
 
 	private final IObjectDefinition<KeyValue<K, IMutableSimpleList<V>>> keyValueDefn = new KeyValueObjectDefinition<K, IMutableSimpleList<V>>();
 
-	private IMutableSimpleList<KeyValue<K, IMutableSimpleList<V>>> list;
+	private final IMutableSimpleList<KeyValue<K, IMutableSimpleList<V>>> list;
 
-	private IObjectDefinition<IMutableSimpleList<V>> pooledListdefn;
+	private final IObjectDefinition<IMutableSimpleList<V>> pooledListdefn;
 
 	public PooledMapOfLists(int maxKeys, int maxValues) {
 		list = IMutableSimpleList.Utils.mutableSimpleList(maxKeys);
@@ -29,7 +29,7 @@ public class PooledMapOfLists<K, V> implements IMutableMapOfLists<K, V> {
 			list.add(keyValue);
 		}
 		valueList.add(item);
-	};
+	}
 
 	@Override
 	public void clear() {

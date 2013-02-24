@@ -4,8 +4,20 @@
 
 package org.softwarefm.utilities.functions;
 
+import org.softwarefm.utilities.exceptions.WrappedException;
+
 public interface IFunction1<From, To> {
+
 
 	To apply(From from) throws Exception;
 
+	public static class  Utils {
+		public static <From,To> To apply(IFunction1<From, To> fn, From arg){
+			try {
+				return fn.apply(arg);
+			} catch (Exception e) {
+				throw WrappedException.wrap(e);
+			}
+		}
+	}
 }

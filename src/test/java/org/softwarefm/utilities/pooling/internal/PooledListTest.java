@@ -80,5 +80,5 @@ public class PooledListTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		mutableSimpleList = IMutableSimpleList.Utils.mutableSimpleList(10);
-	};
+	}
 }

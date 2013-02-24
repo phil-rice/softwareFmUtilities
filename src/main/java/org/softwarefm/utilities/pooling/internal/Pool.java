@@ -9,7 +9,7 @@ import org.softwarefm.utilities.pooling.IPoolStore;
 public class Pool<T> implements IPool<T> {
 
 	private final IObjectDefinition<T> objectDefinition;
-	private ArrayList<T> objects = new ArrayList<T>();
+	private final ArrayList<T> objects = new ArrayList<T>();
 	private int index;
 
 	public Pool(IObjectDefinition<T> objectDefinition) {
@@ -28,6 +28,7 @@ public class Pool<T> implements IPool<T> {
 		return item;
 	}
 
+	@SuppressWarnings("cast")
 	@Override
 	public T get(int i) {
 		if (i >= index)

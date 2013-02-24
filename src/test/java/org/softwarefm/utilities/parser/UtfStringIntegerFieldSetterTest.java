@@ -2,21 +2,21 @@ package org.softwarefm.utilities.parser;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import junit.framework.TestCase;
+
 import org.softwarefm.utilities.pooling.IPoolStore;
 import org.softwarefm.utilities.strings.ISimpleString;
 
-import junit.framework.TestCase;
-
 public class UtfStringIntegerFieldSetterTest extends TestCase {
 
-	private ISimpleString input = ISimpleString.Utils.fromUtf8String("abc123%234\"3");
-	private int start123 = 3;
-	private int start234 = start123+4;
-	private int start3 = start234 + 4;
+	private final ISimpleString input = ISimpleString.Utils.fromUtf8String("abc123%234\"3");
+	private final int start123 = 3;
+	private final int start234 = start123+4;
+	private final int start3 = start234 + 4;
 	private ParserState parserState;
 
 	final AtomicReference<Integer> valueRef = new AtomicReference<Integer>();
-	UtfStringIntegerFieldSetter setter = new UtfStringIntegerFieldSetter() {
+	UtfStringIntegerFieldSetter<?> setter = new UtfStringIntegerFieldSetter<Object>() {
 
 		@Override
 		protected void setField(Object object, int value) {
