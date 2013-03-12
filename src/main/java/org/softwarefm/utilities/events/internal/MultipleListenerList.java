@@ -119,4 +119,9 @@ public class MultipleListenerList implements IMultipleListenerList {
 		executors.put(clazz, executor);
 	}
 
+	@Override
+	public String toString() {
+		return "MultipleListenerList [globalListeners=" + globalListeners + "]";
+	}
+
 }

@@ -44,4 +44,9 @@ public class ListenerList<L> implements IListenerList<L> {
 		return list.size(source, clazz);
 	}
 
+	@Override
+	public String toString() {
+		return "ListenerList [source=" + source.getClass().getSimpleName() + ", clazz=" + clazz + ", list=" + list + "]";
+	}
+
 }
