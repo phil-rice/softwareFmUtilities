@@ -4,6 +4,8 @@
 
 package org.softwarefm.utilities.maps;
 
+import org.softwarefm.utilities.cache.IHasCache;
+
 public interface IHasUrlCache extends IHasCache {
 
 	void clearCache(String url);

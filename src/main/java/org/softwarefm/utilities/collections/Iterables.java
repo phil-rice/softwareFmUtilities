@@ -306,13 +306,20 @@ public class Iterables {
 		return null;
 	}
 
-	public static <T>int size(Iterable<T> iterables) {
+	public static <T> int size(Iterable<T> iterables) {
 		int size = 0;
-		for (Iterator<T> iterator = iterables.iterator(); iterator.hasNext();){
+		for (Iterator<T> iterator = iterables.iterator(); iterator.hasNext();) {
 			iterator.next();
 			size++;
 		}
 		return size;
+	}
+
+	public static <T> T nth(Iterable<T> iterable, int n) {
+		Iterator<T> iterator = iterable.iterator();
+		for (int i = 0; i < n ; i++)
+			iterator.next();
+		return iterator.next();
 	}
 
 }

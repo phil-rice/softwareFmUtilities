@@ -2,6 +2,7 @@ package org.softwarefm.utilities.eventbus.internal;
 
 import org.softwarefm.utilities.callbacks.ICallback2;
 import org.softwarefm.utilities.eventbus.IEventBus;
+import org.softwarefm.utilities.exceptions.CannotAddDuplicateKeyException;
 import org.softwarefm.utilities.tests.Tests;
 
 public class EventBusBuildExceptionTests extends AbstractEventBusTest {
@@ -49,7 +50,7 @@ public class EventBusBuildExceptionTests extends AbstractEventBusTest {
 
 	public void testAddingQueueSecondTimeThrowsException() {
 		eventBus.registerQueue(IQueueTest2.class, ICallback2.Utils.<IQueueTest2, Object> noCallback());
-		Tests.assertThrows(IllegalStateException.class, new Runnable() {
+		Tests.assertThrows(CannotAddDuplicateKeyException.class, new Runnable() {
 			public void run() {
 				eventBus.registerQueue(IQueueTest2.class, ICallback2.Utils.<IQueueTest2, Object> noCallback());
 			}

@@ -25,6 +25,7 @@ import junit.framework.Assert;
 import org.softwarefm.utilities.collections.Lists;
 import org.softwarefm.utilities.constants.UtilityConstants;
 import org.softwarefm.utilities.constants.UtilityMessages;
+import org.softwarefm.utilities.exceptions.CannotAddDuplicateKeyException;
 import org.softwarefm.utilities.exceptions.WrappedException;
 import org.softwarefm.utilities.functions.Functions;
 import org.softwarefm.utilities.functions.IFunction1;
@@ -604,8 +605,15 @@ public class Maps {
 
 	public static <K, V> void putNoDuplicates(Map<K, V> map, K key, V value) {
 		if (map.containsKey(key))
-			throw new IllegalStateException("Cannot add " + key + " with value " + value + " to " + map + " as key already exists with value " + map.get(key));
+			throw new CannotAddDuplicateKeyException("Cannot add " + key + " with value " + value + " to " + map + " as key already exists with value " + map.get(key));
 		map.put(key, value);
+	}
+
+	public static <K,V>Map<K, V> synchronizedMap() {
+		return Collections.synchronizedMap(new HashMap<K, V>());
+	}
+	public static <K,V>Map<K, V> synchronizedLinkedMap() {
+		return Collections.synchronizedMap(new LinkedHashMap<K, V>());
 	}
 
 }
