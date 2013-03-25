@@ -168,13 +168,13 @@ public class MapsTest extends TestCase {
 	@SuppressWarnings("rawtypes")
 	public void testGetWithKeys() {
 		Map<Object, Object> map = Maps.makeMap("a", 1, "b", 2, "c", Maps.makeMap("d", 4, "e", 5, "f", Maps.makeMap("g", 7)));
-		assertEquals(1, Maps.get(map, "a"));
-		assertEquals(2, Maps.get(map, "b"));
-		assertEquals(map.get("c"), Maps.get(map, "c"));
-		assertEquals(4, Maps.get(map, "c", "d"));
-		assertEquals(5, Maps.get(map, "c", "e"));
-		assertEquals(((Map) map.get("c")).get("f"), Maps.get(map, "c", "f"));
-		assertEquals(7, Maps.get(map, "c", "f", "g"));
+		assertEquals(1, Maps.getOrException(map, "a"));
+		assertEquals(2, Maps.getOrException(map, "b"));
+		assertEquals(map.get("c"), Maps.getOrException(map, "c"));
+		assertEquals(4, Maps.getOrException(map, "c", "d"));
+		assertEquals(5, Maps.getOrException(map, "c", "e"));
+		assertEquals(((Map) map.get("c")).get("f"), Maps.getOrException(map, "c", "f"));
+		assertEquals(7, Maps.getOrException(map, "c", "f", "g"));
 	}
 
 	public void testPutWithKeys() {

@@ -467,12 +467,27 @@ public class Maps {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <K, V> V get(Map<K, V> data, K... keys) {
+	public static <K, V> V getOrException(Map<K, V> data, K... keys) {
 		Map<K, V> map = data;
 		V result = null;
 		for (K key : keys) {
 			if (map == null)
 				throw new IllegalStateException(MessageFormat.format(UtilityMessages.cannotWorkOutValue, data, key, Arrays.asList(keys)));
+			result = map.get(key);
+			if (result instanceof Map)
+				map = (Map<K, V>) result;
+			else
+				map = null;
+		}
+		return result;
+	}
+	@SuppressWarnings("unchecked")
+	public static <K, V> V getOrNull(Map<K, V> data, K... keys) {
+		Map<K, V> map = data;
+		V result = null;
+		for (K key : keys) {
+			if (map == null)
+				return null;
 			result = map.get(key);
 			if (result instanceof Map)
 				map = (Map<K, V>) result;

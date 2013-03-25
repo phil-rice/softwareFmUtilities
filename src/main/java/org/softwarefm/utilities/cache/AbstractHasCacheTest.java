@@ -58,6 +58,7 @@ abstract public class AbstractHasCacheTest<K, V> extends TestCase implements IHa
 		}
 	}
 
+	
 	public void testReturnsSameValueEachTime() throws Exception {
 		if (dataIfNotPut1_1 == null)
 			return;
@@ -80,6 +81,20 @@ abstract public class AbstractHasCacheTest<K, V> extends TestCase implements IHa
 		assertEquals(value2, getDataFor(key2));
 	}
 
+	public void testClearCacheMeanKeyReturnsNull() throws Exception {
+		putData(key1, value1);
+		putData(key2, value2);
+		clearCaches();
+
+		if (dataIfNotPut1_1 == null) {
+			assertEquals(null, getDataFor(key1));
+			assertEquals(null, getDataFor(key2));
+		} else {
+			assertEquals(dataIfNotPut1_1, getDataFor(key1));
+			assertEquals(dataIfNotPut2_1, getDataFor(key2));
+		}
+	}
+
 	public void testPutChangesValue() throws Exception {
 		if (dataIfNotPut1_1 == null)
 			return;
@@ -97,7 +112,7 @@ abstract public class AbstractHasCacheTest<K, V> extends TestCase implements IHa
 		assertEquals(value2, getDataFor(key2));
 	}
 
-	public void testClearCacheMeansGetDataNextTime() throws Exception {
+	public void testStaleCacheMeansGetDataNextTime() throws Exception {
 		if (dataIfNotPut1_1 == null)
 			return;
 		assertEquals(dataIfNotPut1_1, getDataFor(key1));
