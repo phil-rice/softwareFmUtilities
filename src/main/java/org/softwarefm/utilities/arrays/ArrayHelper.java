@@ -66,4 +66,12 @@ public class ArrayHelper {
 		return -1;
 	}
 
+	@SuppressWarnings("rawtypes")
+	public static Class<?>[] classArray(Object[] inputs) {
+		Class[] result = new Class[inputs.length];
+		for (int i = 0; i<result.length; i++)
+			result[i]= inputs[i].getClass();
+		return result;
+	}
+
 }
